@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
-import { getLeaderboard, Player } from '@/lib/supabase';
+import { getLeaderboard, Player } from '@/lib/sheets';
 
 export default function LeaderboardPage() {
   const [players, setPlayers] = useState<Player[]>([]);

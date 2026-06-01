@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import QuizCard from '@/components/QuizCard';
-import { saveScore } from '@/lib/supabase';
 
 const EXERCISES = [
   {
@@ -51,13 +50,13 @@ const EXERCISES = [
 
 export default function ExercisesPage() {
   const [currentExercise, setCurrentExercise] = useState(0);
-  const [answers, setAnswers] = useState<(boolean | null)[]>(Array(EXERCISES.length).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(EXERCISES.length).fill(null));
   const [isAnswered, setIsAnswered] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
-  const handleAnswer = (isCorrect: boolean) => {
+  const handleAnswer = (selectedIndex: number) => {
     const newAnswers = [...answers];
-    newAnswers[currentExercise] = isCorrect;
+    newAnswers[currentExercise] = selectedIndex;
     setAnswers(newAnswers);
     setIsAnswered(true);
   };
@@ -71,7 +70,7 @@ export default function ExercisesPage() {
     }
   };
 
-  const correctCount = answers.filter((a) => a === true).length;
+  const correctCount = answers.filter((a, i) => a !== null && a === EXERCISES[i].correctAnswer).length;
   const score = Math.round((correctCount / EXERCISES.length) * 100);
 
   const handleRestart = () => {
@@ -98,9 +97,24 @@ export default function ExercisesPage() {
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
                   <span className="glow-text">Ejercicios</span> de Transistores
                 </h1>
-                <p className="text-gray-400 text-lg">
-                  Demuestra tu conocimiento con estos ejercicios de opción múltiple
+                <p className="text-gray-400 text-lg mb-4">
+                  Misión 3: Ejercicios de Transistores. Aquí practicas los conceptos más importantes del BJT para poder resolver problemas reales de control y amplificación.
                 </p>
+                <div className="grid gap-4 text-gray-400">
+                  <div className="glow-box p-4 rounded-xl bg-slate-900/50">
+                    <h2 className="font-semibold mb-2">Concepto principal</h2>
+                    <p>Un BJT es un transistor con tres terminales: base, colector y emisor. La base controla si el colector puede dejar pasar corriente al emisor.</p>
+                    <p className="mt-3">β es la ganancia de corriente. Por ejemplo, si Ib es 1 y β es 10, entonces Ic será 10. Ese es el principio de amplificación.</p>
+                  </div>
+                  <div className="glow-box p-4 rounded-xl bg-slate-900/50">
+                    <h2 className="font-semibold mb-2">Tu misión</h2>
+                    <ul className="list-disc list-inside space-y-1">
+                      <li>Lee cada pregunta y piensa en qué terminal se menciona.</li>
+                      <li>Usa la fórmula <strong>Ic = β × Ib</strong> cuando la pregunta trate de corriente.</li>
+                      <li>Recuerda que la función principal del transistor es amplificar o conmutar señales.</li>
+                    </ul>
+                  </div>
+                </div>
               </motion.div>
 
               {/* Progress */}
@@ -139,11 +153,7 @@ export default function ExercisesPage() {
                   {...EXERCISES[currentExercise]}
                   onAnswer={handleAnswer}
                   isAnswered={isAnswered}
-                  selectedAnswer={
-                    isAnswered
-                      ? answers.findIndex((a, i) => i === currentExercise && a !== null)
-                      : null
-                  }
+                  selectedAnswer={answers[currentExercise]}
                 />
               </motion.div>
 
@@ -177,7 +187,7 @@ export default function ExercisesPage() {
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 0.6 }}
               >
-                ¡Resultados!
+                {score >= 80 ? '¡Misión Completada!' : 'Sigue practicando'}
               </motion.h2>
 
               <motion.div
@@ -192,23 +202,26 @@ export default function ExercisesPage() {
                 </p>
 
                 <div className="grid grid-cols-2 gap-4">
-                  {answers.map((isCorrect, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.4 + index * 0.1 }}
-                      className={`p-3 rounded text-sm font-semibold
-                        ${
-                          isCorrect
-                            ? 'bg-green-500/20 text-green-400'
-                            : 'bg-red-500/20 text-red-400'
-                        }
-                      `}
-                    >
-                      Pregunta {index + 1}: {isCorrect ? '✓ Correcta' : '✗ Incorrecta'}
-                    </motion.div>
-                  ))}
+                  {answers.map((selected, index) => {
+                    const isCorrect = selected !== null && selected === EXERCISES[index].correctAnswer;
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.4 + index * 0.1 }}
+                        className={`p-3 rounded text-sm font-semibold
+                          ${
+                            isCorrect
+                              ? 'bg-green-500/20 text-green-400'
+                              : 'bg-red-500/20 text-red-400'
+                          }
+                        `}
+                      >
+                        Pregunta {index + 1}: {isCorrect ? '✓ Correcta' : '✗ Incorrecta'}
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
@@ -220,10 +233,10 @@ export default function ExercisesPage() {
                 className="text-lg text-gray-300 mb-8"
               >
                 {score >= 80
-                  ? '¡Excelente! Dominas los conceptos de transistores. 🎉'
+                  ? '¡Excelente! La misión de ejercicios está completada. 🎉'
                   : score >= 60
-                    ? 'Bien hecho. Repasa algunos conceptos y vuelve a intentar. 💪'
-                    : 'Necesitas practicar más. ¡Vuelve al simulador! 📚'}
+                    ? 'Bien hecho. Aún no alcanzas la misión completa. Repasa y vuelve a intentar. 💪'
+                    : 'Necesitas practicar más. Vuelve al simulador y repite los ejercicios. 📚'}
               </motion.p>
 
               {/* Restart Button */}

@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import QuizCard from '@/components/QuizCard';
-import { saveScore } from '@/lib/supabase';
+import { saveScore } from '@/lib/sheets';
 
 const QUIZ_QUESTIONS = [
   {
@@ -61,16 +61,16 @@ const QUIZ_QUESTIONS = [
 
 export default function QuizPage() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<(boolean | null)[]>(Array(QUIZ_QUESTIONS.length).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(QUIZ_QUESTIONS.length).fill(null));
   const [isAnswered, setIsAnswered] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [playerName, setPlayerName] = useState('');
   const [finalScore, setFinalScore] = useState(0);
   const [scoreSaved, setScoreSaved] = useState(false);
 
-  const handleAnswer = (isCorrect: boolean) => {
+  const handleAnswer = (selectedIndex: number) => {
     const newAnswers = [...answers];
-    newAnswers[currentQuestion] = isCorrect;
+    newAnswers[currentQuestion] = selectedIndex;
     setAnswers(newAnswers);
     setIsAnswered(true);
   };
@@ -85,7 +85,7 @@ export default function QuizPage() {
   };
 
   const showResultsScreen = () => {
-    const correctCount = answers.filter((a) => a === true).length;
+    const correctCount = answers.filter((selected, index) => selected !== null && selected === QUIZ_QUESTIONS[index].correctAnswer).length;
     const score = Math.round((correctCount / QUIZ_QUESTIONS.length) * 100);
     setFinalScore(score);
     setShowResults(true);
@@ -108,7 +108,7 @@ export default function QuizPage() {
     setScoreSaved(false);
   };
 
-  const correctCount = answers.filter((a) => a === true).length;
+  const correctCount = answers.filter((selected, index) => selected !== null && selected === QUIZ_QUESTIONS[index].correctAnswer).length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -127,9 +127,27 @@ export default function QuizPage() {
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
                   <span className="glow-text">Quiz Final</span>
                 </h1>
-                <p className="text-gray-400 text-lg">
-                  Demuestra tu dominio absoluto de los transistores en este desafío final
+                <p className="text-gray-400 text-lg mb-4">
+                  Misión 5: Quiz Final. Aquí debes mostrar que dominas los conceptos del transistor y puedes aplicar lo aprendido en situaciones reales.
                 </p>
+                <div className="grid gap-4 text-gray-400">
+                  <div className="glow-box p-4 rounded-xl bg-slate-900/50">
+                    <h2 className="font-semibold mb-2">Tu misión</h2>
+                    <p>Demuestra que conoces los modos de operación del transistor y cómo se usan en circuitos reales. Busca si el transistor está en corte, activo o saturación.</p>
+                  </div>
+                  <div className="glow-box p-4 rounded-xl bg-slate-900/50">
+                    <h2 className="font-semibold mb-2">Conceptos clave</h2>
+                    <ul className="list-disc list-inside space-y-1">
+                      <li><strong>Corte:</strong> la base no tiene corriente, el transistor está apagado y casi no pasa corriente.</li>
+                      <li><strong>Activo:</strong> el transistor amplifica la señal. Ic cambia según Ib y β.</li>
+                      <li><strong>Saturación:</strong> el transistor está completamente encendido, pasando la máxima corriente posible.</li>
+                    </ul>
+                  </div>
+                  <div className="glow-box p-4 rounded-xl bg-slate-900/50">
+                    <h2 className="font-semibold mb-2">Cómo saber si lo lograste</h2>
+                    <p>Si obtienes 80% o más, la misión está completada. Si no, revisa los conceptos y vuelve a intentarlo.</p>
+                  </div>
+                </div>
               </motion.div>
 
               {/* Progress */}
@@ -168,11 +186,7 @@ export default function QuizPage() {
                   {...QUIZ_QUESTIONS[currentQuestion]}
                   onAnswer={handleAnswer}
                   isAnswered={isAnswered}
-                  selectedAnswer={
-                    isAnswered
-                      ? answers.findIndex((a, i) => i === currentQuestion && a !== null)
-                      : null
-                  }
+                  selectedAnswer={answers[currentQuestion]}
                 />
               </motion.div>
 
@@ -190,7 +204,7 @@ export default function QuizPage() {
                     className="px-8 py-3 rounded-lg bg-gradient-to-r from-neon-blue to-neon-purple text-black font-bold hover:shadow-glow transition-shadow"
                   >
                     {currentQuestion === QUIZ_QUESTIONS.length - 1
-                      ? 'Completar Quiz'
+                      ? 'Terminar Misión'
                       : 'Siguiente Pregunta'}
                   </motion.button>
                 </motion.div>
@@ -226,7 +240,9 @@ export default function QuizPage() {
                     </p>
 
                     <div className="grid grid-cols-5 gap-2 mb-8">
-                      {answers.map((isCorrect, index) => (
+                      {answers.map((selected, index) => {
+                      const isCorrect = selected !== null && selected === QUIZ_QUESTIONS[index].correctAnswer;
+                      return (
                         <motion.div
                           key={index}
                           initial={{ opacity: 0, scale: 0 }}
@@ -242,7 +258,8 @@ export default function QuizPage() {
                         >
                           {isCorrect ? '✓' : '✗'}
                         </motion.div>
-                      ))}
+                      );
+                    })}
                     </div>
 
                     {/* Performance Message */}
@@ -252,11 +269,9 @@ export default function QuizPage() {
                       transition={{ delay: 0.6 }}
                       className="text-center text-lg text-gray-300 mb-8"
                     >
-                      {finalScore >= 90
-                        ? '¡Eres un maestro de transistores! 👑'
-                        : finalScore >= 70
-                          ? '¡Buen trabajo! Demuestras sólido conocimiento. 🎉'
-                          : '¡Vuelve a intentar! Hay muchas cosas interesantes por aprender. 📚'}
+                      {finalScore >= 80
+                        ? '¡Misión completada! Has demostrado que sabes aplicar los conceptos clave. 🎯'
+                        : 'No alcanzaste la meta de la misión. Revisa los conceptos y vuelve a intentarlo. 📚'}
                     </motion.p>
                   </motion.div>
 

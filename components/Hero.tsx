@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 export default function Hero() {
-  const [isHovering, setIsHovering] = useState(false);
   const [particles, setParticles] = useState(
     Array.from({ length: 20 }, () => ({ x: 0, y: 0, delay: 0, duration: 2 }))
   );
@@ -94,7 +93,7 @@ export default function Hero() {
           variants={itemVariants}
           className="text-xl md:text-2xl text-gray-300 mb-6 font-light tracking-wide"
         >
-          Descubre el poder de los transistores a través de la experiencia interactiva
+          Aprende qué es un transistor, para qué sirve y cómo controla la corriente en un circuito.
         </motion.p>
 
         {/* Description */}
@@ -128,12 +127,50 @@ export default function Hero() {
           ))}
         </motion.div>
 
-        {/* CTA Button */}
         <motion.div
           variants={itemVariants}
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
+          className="glow-box p-6 rounded-xl backdrop-blur-md bg-slate-900/60 mb-12"
         >
+          <h2 className="text-2xl font-bold glow-text mb-4">Qué aprenderás</h2>
+          <ul className="list-disc list-inside text-gray-400 space-y-3">
+            <li>Qué es un transistor y por qué controla la corriente como un interruptor.</li>
+            <li>Para qué sirve: amplificar señales y conmutar circuitos.</li>
+            <li>Cómo funcionan los terminales base, colector y emisor.</li>
+            <li>Qué significan corte, activo y saturación en un BJT.</li>
+            <li>Cómo usar la fórmula <strong>Ic = β × Ib</strong> para entender el comportamiento del transistor.</li>
+          </ul>
+        </motion.div>
+
+        <motion.div
+          variants={itemVariants}
+          className="glow-box p-6 rounded-xl backdrop-blur-md bg-slate-900/60 mb-12"
+        >
+          <h2 className="text-2xl font-bold glow-text mb-4">¿Qué es un transistor?</h2>
+          <p className="text-gray-300 leading-relaxed mb-3">
+            Un transistor es un pequeño interruptor electrónico que controla la corriente en un circuito. Sirve para encender o apagar señales, y también para amplificarlas: con una corriente pequeña en la base se puede controlar una corriente mayor en el colector.
+          </p>
+          <ul className="list-disc list-inside text-gray-400 space-y-2">
+            <li><strong>Base:</strong> entrada de control que dicta cuánto deja pasar el transistor.</li>
+            <li><strong>Colector:</strong> terminal de alta corriente que se controla desde la base.</li>
+            <li><strong>Emisor:</strong> terminal de salida o retorno de la corriente.</li>
+            <li><strong>β:</strong> ganancia de corriente, cuántas veces más grande es Ic que Ib.</li>
+          </ul>
+        </motion.div>
+
+        <motion.div
+          variants={itemVariants}
+          className="glow-box p-6 rounded-xl backdrop-blur-md bg-slate-900/60 mb-12"
+        >
+          <h2 className="text-2xl font-bold glow-text mb-4">Conceptos clave</h2>
+          <p className="text-gray-300 leading-relaxed">
+            En este contenido verás preguntas basadas en estas ideas: cómo se activa el transistor, qué significa cortar, saturar y amplificar, y cómo la polaridad define NPN vs PNP.
+          </p>
+          <p className="text-gray-400 leading-relaxed mt-3">
+            Lee cada pregunta pensando en estos conceptos y en cómo cambia el circuito cuando varía la corriente de base.</p>
+        </motion.div>
+
+        {/* CTA Button */}
+        <motion.div variants={itemVariants}>
           <Link href="/missions">
             <motion.button
               className="relative px-8 py-4 text-lg font-bold rounded-lg overflow-hidden group"

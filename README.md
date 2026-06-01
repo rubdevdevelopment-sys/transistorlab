@@ -53,7 +53,7 @@ Una experiencia educativa interactiva para aprender sobre transistores con simul
 
 - Node.js 18+
 - npm o yarn
-- Cuenta de Supabase (para el leaderboard)
+- Cuenta de Google (para Google Sheets)
 
 ## 🛠️ Instalación
 
@@ -62,23 +62,15 @@ Una experiencia educativa interactiva para aprender sobre transistores con simul
 npm install
 ```
 
-2. **Configurar Supabase:**
-   - Crear proyecto en [supabase.com](https://supabase.com)
-   - Crear tabla `leaderboard` usando el archivo `supabase.sql` que ya viene en este proyecto
-   - Si lo prefieres, ejecuta en SQL:
-     ```sql
-     CREATE TABLE leaderboard (
-       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-       name TEXT NOT NULL,
-       score INTEGER NOT NULL,
-       created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-     );
-     ```
+2. **Configurar Google Sheets + Apps Script:**
+   - Usa la cuenta educativa `rdmonroyl@unincca.edu.co`
+   - Abre Google Sheets y crea una hoja nueva
+   - Abre `Extensiones -> Apps Script` y pega el código de `GOOGLE_SHEETS_APP_SCRIPT.md`
+   - Despliega la app como `Web app` con acceso `Anyone`
 
 3. **Configurar variables de entorno (.env.local):**
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+GOOGLE_SHEETS_API_URL=https://script.google.com/macros/s/tu_script_id/exec
 ```
 
 ## 🚀 Desarrollo
@@ -122,7 +114,7 @@ TransistorLab/
 │   ├── MissionCard.tsx         # Card de misión
 │   └── QuizCard.tsx            # Card de pregunta
 ├── lib/
-│   └── supabase.ts             # Configuración Supabase
+│   └── sheets.ts               # Configuración Google Sheets
 ├── package.json
 ├── tsconfig.json
 ├── next.config.ts
@@ -144,7 +136,7 @@ TransistorLab/
 - **TypeScript**: Tipado estático
 - **TailwindCSS**: Diseño utility-first
 - **Framer Motion**: Animaciones declarativas
-- **Supabase**: Backend y base de datos
+- **Google Sheets + Apps Script**: Backend gratuito y fácil
 - **SVG**: Gráficos vectoriales
 
 ## 📚 Conceptos Educativos
@@ -176,7 +168,7 @@ colors: {
 ## 🔒 Seguridad
 
 - Variables de entorno protegidas
-- Supabase con RLS habilitado (recomendado)
+- Google Sheets + Apps Script configurado desde una cuenta educativa
 - Validación en cliente y servidor
 
 ## 🤝 Contribuir

@@ -17,67 +17,68 @@ interface MissionDetail {
 const MISSION_DETAILS: { [key: number]: MissionDetail } = {
   1: {
     title: 'El Apagón',
-    description: 'La ciudad quedó sin energía',
+    description: 'Encuentra cómo un transistor controla la corriente',
     story:
-      'Hace una semana, un apagón catastrófico dejó la ciudad a oscuras. Tú, como ingeniero, debes entender qué son los transistores para comenzar a restaurar el poder.',
+      'La ciudad está a oscuras. Tu primera tarea es descubrir qué es un transistor y por qué su base, colector y emisor son tan importantes. Este conocimiento te permitirá pasar del apagón a una luz estable.',
     objectives: [
       'Aprender qué es un transistor',
-      'Entender los tres terminales (base, colector, emisor)',
-      'Comprender el concepto básico de amplificación',
+      'Identificar los tres terminales: base, colector y emisor',
+      'Comprender cómo el transistor controla el flujo de corriente',
     ],
     concept:
-      'Un transistor es un dispositivo semiconductor con tres terminales que controla el flujo de corriente. Es el componente fundamental de toda la electrónica moderna.',
+      'Un transistor es un dispositivo que funciona como una puerta para la corriente. La base controla si el colector puede dejar pasar corriente hacia el emisor. Entender esto es la base para todas las demás misiones.',
   },
   2: {
     title: 'Control de Corriente',
-    description: 'Domina el control de corriente',
+    description: 'Encuentra el valor correcto de Ib para encender la luz',
     story:
-      'Ahora que entiendes qué son los transistores, aprenderás a controlar la corriente con precisión. Esta habilidad es clave para restaurar los sistemas de la ciudad.',
+      'El generador principal está dormido. Debes encontrar cuánto debe recibir la base para que el transistor permita suficiente corriente en el colector y la luz vuelva a encenderse.',
     objectives: [
-      'Controlar la corriente de base (Ib)',
-      'Observar cómo afecta a la corriente de colector (Ic)',
-      'Entender la relación Ic = β × Ib',
+      'Identificar cómo Ib controla la corriente de colector',
+      'Comparar cambios de Ib con cambios de Ic',
+      'Usar el simulador para encontrar el valor de base correcto',
     ],
     concept:
-      'La corriente que fluye por la base controla la corriente mucho mayor que fluye entre colector y emisor. Esta es la base de la amplificación.',
+      'En un transistor BJT, la base es la puerta. Ib es la corriente que le dice al transistor cuánto dejar pasar entre colector y emisor. La fórmula clave es Ic = β × Ib. Este concepto sirve para entender cómo encender o apagar una carga con una señal de control.',
   },
   3: {
     title: 'Amplificación',
-    description: 'Aprende sobre ganancia',
-    story: 'Con el control dominado, ahora explorarás la amplificación. Las luces de la ciudad comienzan a brillar.',
+    description: 'Ajusta β para lograr la intensidad correcta',
+    story:
+      'Las luces de la ciudad están encendidas, pero no con suficiente intensidad. Debes aprender cómo usar β para amplificar la corriente de base y lograr la potencia de salida necesaria.',
     objectives: [
-      'Entender el concepto de ganancia (β)',
-      'Ajustar beta para diferentes amplificaciones',
-      'Observar cómo β afecta la intensidad de salida',
+      'Entender la ganancia de corriente β',
+      'Ajustar β para obtener más amplificación',
+      'Observar cómo cambia Ic cuando β varía',
     ],
     concept:
-      'La ganancia (β) determina cuántas veces se amplifica la corriente. Un transistor con β=100 amplifica la corriente de base 100 veces.',
+      'β es la ganancia de corriente del transistor. Indica cuántas veces mayor es Ic que Ib. A mayor β, una pequeña corriente de base produce una corriente de colector mucho más grande. Este concepto sirve para entender cómo una señal pequeña puede transformarse en una señal útil más potente.',
   },
   4: {
     title: 'Circuitos Complejos',
-    description: 'Crea circuitos avanzados',
+    description: 'Descubre cómo varios transistores trabajan juntos',
     story:
-      'Ahora construirás circuitos con múltiples transistores. La ciudad se moderniza con sistemas complejos de control.',
+      'Las líneas de energía requieren más poder. Debes comprender por qué se usan transistores en cadena y cómo cada etapa controla la señal del siguiente.',
     objectives: [
-      'Combinar múltiples transistores',
-      'Crear circuitos de amplificación en cascada',
-      'Controlar sistemas complejos de energía',
+      'Entender por qué se usan transistores en cascada',
+      'Ver cómo se combina la amplificación',
+      'Relacionar cada etapa con el control de salida',
     ],
     concept:
-      'Los transistores se pueden conectar en serie (en cascada) para obtener amplificaciones aún mayores, permitiendo diseños complejos.',
+      'Un transistor puede amplificar una señal, pero uno solo no siempre es suficiente. En cascada, varias etapas permiten mayor ganancia y control, y cada etapa depende de la anterior. Esta idea sirve para construir amplificadores reales y sistemas de potencia más complejos.',
   },
   5: {
     title: 'Maestro de Transistores',
-    description: 'El desafío final',
+    description: 'Resuelve el desafío final usando todo lo aprendido',
     story:
-      'Has llegado al final. Demuestra tu maestría en transistores y sé el ingeniero que la ciudad necesita. ¡La ciudad te espera!',
+      'La ciudad depende de ti para confirmar que dominas el transistor. Debes responder preguntas que exigen aplicar los conceptos de control, ganancia y regiones de operación.',
     objectives: [
-      'Dominar todos los conceptos aprendidos',
-      'Resolver un desafío técnico complejo',
-      'Reclamar tu título de Maestro de Transistores',
+      'Aplicar lo aprendido sobre Ib, β e Ic',
+      'Identificar corte, activo y saturación',
+      'Responder correctamente el quiz final',
     ],
     concept:
-      'Los transistores son la base de toda la tecnología moderna. Desde amplificadores hasta computadoras, los transistores lo hacen posible.',
+      'Un transistor puede trabajar en corte, activo o saturación. Cada modo define cómo controla y amplifica la corriente. Entenderlo es clave para diseñar circuitos reales y saber cuándo usar un transistor como amplificador o como conmutador.',
   },
 };
 
@@ -184,6 +185,23 @@ export default function MissionDetailPage() {
                     </motion.li>
                   ))}
                 </ul>
+              </motion.div>
+
+              {/* Mission Steps */}
+              <motion.div
+                className="glow-box p-6 rounded-lg backdrop-blur-md bg-slate-900/50"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <h3 className="text-xl font-bold glow-text mb-4">✅ Pasos de la misión</h3>
+                <ol className="list-decimal list-inside space-y-3 text-gray-300">
+                  <li>Lee la historia y los objetivos de esta misión.</li>
+                  <li>Usa la pantalla correspondiente (simulador, ejercicios o quiz).</li>
+                  <li>Aplica los conceptos clave descritos aquí.</li>
+                  <li>Cuando termines, presiona <strong>Completar Misión</strong>.</li>
+                </ol>
               </motion.div>
 
               {/* Concept */}

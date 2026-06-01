@@ -82,7 +82,7 @@ export default function MissionsPage() {
             <span className="glow-text">Misiones</span> del Transistor
           </h1>
           <p className="text-xl text-gray-400">
-            Una ciudad sin energía necesita tu ayuda. Completa las 5 misiones para restaurar el poder de la electricidad.
+            Una ciudad sin energía te necesita. Cada misión te pide resolver un reto concreto usando los conceptos del transistor: qué es, cómo controla corriente, cómo amplifica y cómo se aplica en circuitos.
           </p>
         </motion.div>
 

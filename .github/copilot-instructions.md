@@ -2,7 +2,7 @@
 
 ## Descripción del Proyecto
 
-TransistorLab es una plataforma educativa interactiva construida con Next.js 15, TypeScript, TailwindCSS, Framer Motion y Supabase. Proporciona una experiencia inmersiva para aprender sobre transistores mediante simulaciones, misiones, ejercicios, quiz y un sistema de ranking global.
+TransistorLab es una plataforma educativa interactiva construida con Next.js 15, TypeScript, TailwindCSS, Framer Motion y Google Sheets + Apps Script. Proporciona una experiencia inmersiva para aprender sobre transistores mediante simulaciones, misiones, ejercicios, quiz y un sistema de ranking global.
 
 ## Estructura del Proyecto
 
@@ -14,7 +14,7 @@ TransistorLab es una plataforma educativa interactiva construida con Next.js 15,
   - `missions/`: Módulo de 5 misiones progresivas
   - `exercises/`: 5 ejercicios de opción múltiple
   - `quiz/`: Quiz final con 5 preguntas
-  - `leaderboard/`: Ranking global con Supabase
+  - `leaderboard/`: Ranking global con Google Sheets + Apps Script
 
 - **components/**: Componentes reutilizables
   - `Hero.tsx`: Componente landing page
@@ -24,7 +24,7 @@ TransistorLab es una plataforma educativa interactiva construida con Next.js 15,
   - `QuizCard.tsx`: Card para preguntas
 
 - **lib/**: Funciones y configuraciones
-  - `supabase.ts`: Cliente Supabase y funciones CRUD
+  - `sheets.ts`: Cliente de Google Sheets y funciones CRUD
 
 ## Características Principales
 
@@ -45,10 +45,10 @@ TransistorLab es una plataforma educativa interactiva construida con Next.js 15,
 - 5 ejercicios con retroalimentación inmediata
 - Quiz final de 5 preguntas
 - Sistema de puntuación automática
-- Guardado de puntuaciones en Supabase
+- Guardado de puntuaciones en Google Sheets
 
 ### Leaderboard
-- Integración con Supabase
+- Integración con Google Sheets + Apps Script
 - Top 10 jugadores
 - Medallas para top 3
 - Estadísticas globales
@@ -57,19 +57,12 @@ TransistorLab es una plataforma educativa interactiva construida con Next.js 15,
 
 1. **Variables de Entorno (.env.local)**:
 ```
-NEXT_PUBLIC_SUPABASE_URL=tu_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
+GOOGLE_SHEETS_API_URL=https://script.google.com/macros/s/tu_script_id/exec
 ```
 
-2. **Base de Datos Supabase**:
-```sql
-CREATE TABLE leaderboard (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL,
-  score INTEGER NOT NULL,
-  created_at TIMESTAMP DEFAULT now()
-);
-```
+2. **Google Sheets + Apps Script**:
+   - Usa tu cuenta educativa para crear la hoja y el script
+   - Despliega el Apps Script como `Web app` con acceso `Anyone`
 
 ## Instalación y Ejecución
 
@@ -100,14 +93,14 @@ npm start
 - TypeScript
 - TailwindCSS 3.4
 - Framer Motion 11
-- Supabase JS Client 2.38
+- Google Sheets + Apps Script
 
 ## Notas de Desarrollo
 
 - Todo el código está listo para producción
 - Tipado TypeScript completo
 - Componentes optimizados con React.memo donde corresponde
-- Manejo de errores en llamadas a Supabase
+- Manejo de errores en llamadas a Google Sheets API
 - Validación de entrada en formularios
 
 ## Próximas Mejoras Sugeridas

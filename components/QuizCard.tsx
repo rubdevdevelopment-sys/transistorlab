@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 interface QuizCardProps {
   id: number;
   question: string;
   options: string[];
   correctAnswer: number;
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (selectedIndex: number) => void;
   isAnswered: boolean;
   selectedAnswer: number | null;
 }
@@ -24,7 +24,7 @@ export default function QuizCard({
 }: QuizCardProps) {
   const handleSelectOption = (index: number) => {
     if (!isAnswered) {
-      onAnswer(index === correctAnswer);
+      onAnswer(index);
     }
   };
 

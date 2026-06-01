@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface TransistorSimulatorProps {
@@ -21,11 +21,14 @@ export default function TransistorSimulator({ onDataChange }: TransistorSimulato
   const Ic = useMemo(() => Ib * beta, [Ib, beta]);
   const lampIntensity = Math.min((Ic / 1000) * 100, 100);
 
-  const data: SimulatorData = { Ib, beta, Ic, lampIntensity };
+  const data: SimulatorData = useMemo(
+    () => ({ Ib, beta, Ic, lampIntensity }),
+    [Ib, beta, Ic, lampIntensity]
+  );
 
-  React.useEffect(() => {
+  useEffect(() => {
     onDataChange?.(data);
-  }, [Ib, beta, Ic, lampIntensity]);
+  }, [data, onDataChange]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
