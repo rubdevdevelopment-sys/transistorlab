@@ -36,7 +36,7 @@ const MISSION_DETAILS: { [key: number]: MissionDetail } = {
     objectives: [
       'Identificar cómo Ib controla la corriente de colector',
       'Comparar cambios de Ib con cambios de Ic',
-      'Usar el simulador para encontrar el valor de base correcto',
+      'Usar el simulador para encontrar el valor de base correcto y observar la ganancia',
     ],
     concept:
       'En un transistor BJT, la base es la puerta. Ib es la corriente que le dice al transistor cuánto dejar pasar entre colector y emisor. La fórmula clave es Ic = β × Ib. Este concepto sirve para entender cómo encender o apagar una carga con una señal de control.',

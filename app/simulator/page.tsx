@@ -19,15 +19,19 @@ export default function SimulatorPage() {
           <div className="mx-auto max-w-3xl grid gap-4 text-left">
             <div className="glow-box p-4 rounded-xl bg-slate-900/50 text-gray-300">
               <h2 className="font-semibold mb-2">Reto</h2>
-              <p>Debes encontrar el valor correcto de <strong>Ib</strong> y luego usar <strong>β</strong> para que la corriente de colector sea suficiente y la luz aumente.</p>
+              <p>Tu objetivo es aprender qué controla el transistor: buscar cómo afecta <strong>Ib</strong> a <strong>Ic</strong> y cómo <strong>β</strong> amplifica esa señal para encender mejor la luz.</p>
             </div>
             <div className="glow-box p-4 rounded-xl bg-slate-900/50 text-gray-300">
               <h2 className="font-semibold mb-2">Tu tarea</h2>
               <ul className="list-disc list-inside space-y-2">
-                <li>Sube o baja <strong>Ib</strong> y observa el cambio en <strong>Ic</strong>.</li>
-                <li>Cambia <strong>β</strong> para ver cuánto amplifica cada unidad de corriente de base.</li>
-                <li>Usa la luz como indicador: cuanto más brillante, mayor es la corriente de colector.</li>
+                <li>Usa los deslizadores para encontrar el valor de <strong>Ib</strong> que activa el transistor.</li>
+                <li>Después ajusta <strong>β</strong> para ver cómo cambia la corriente de colector <strong>Ic</strong> con la misma base.</li>
+                <li>No se trata solo de mover los controles, sino de ver qué combinación hace que la lámpara brille más con menos señal de control.</li>
               </ul>
+            </div>
+            <div className="glow-box p-4 rounded-xl bg-slate-900/50 text-gray-300">
+              <h2 className="font-semibold mb-2">Qué debes buscar</h2>
+              <p>Observa que cuando subes <strong>Ib</strong>, <strong>Ic</strong> debe subir. Y cuando subes <strong>β</strong>, la misma <strong>Ib</strong> produce una <strong>Ic</strong> mayor. Ese es el comportamiento que debes entender.</p>
             </div>
             <div className="glow-box p-4 rounded-xl bg-slate-900/50 text-gray-300">
               <h2 className="font-semibold mb-2">Concepto clave</h2>
