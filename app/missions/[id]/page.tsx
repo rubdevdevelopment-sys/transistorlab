@@ -11,6 +11,7 @@ interface MissionDetail {
   description: string;
   story: string;
   objectives: string[];
+  task?: string;
   concept: string;
 }
 
@@ -25,6 +26,8 @@ const MISSION_DETAILS: { [key: number]: MissionDetail } = {
       'Identificar los tres terminales: base, colector y emisor',
       'Comprender cómo el transistor controla el flujo de corriente',
     ],
+    task:
+      'Usa el simulador para encontrar el valor mínimo de Ib que enciende la luz y observa cómo una mayor β hace que Ic crezca. No es solo mover controles: es entender cómo la base controla el colector.',
     concept:
       'Un transistor es un dispositivo que funciona como una puerta para la corriente. La base controla si el colector puede dejar pasar corriente hacia el emisor. Entender esto es la base para todas las demás misiones.',
   },
@@ -186,6 +189,20 @@ export default function MissionDetailPage() {
                   ))}
                 </ul>
               </motion.div>
+
+              {/* Mission Task */}
+              {mission.task && (
+                <motion.div
+                  className="glow-box p-6 rounded-lg backdrop-blur-md bg-slate-900/50"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.15 }}
+                >
+                  <h3 className="text-xl font-bold glow-text mb-4">🎯 Tu tarea</h3>
+                  <p className="text-gray-300 leading-relaxed">{mission.task}</p>
+                </motion.div>
+              )}
 
               {/* Mission Steps */}
               <motion.div
