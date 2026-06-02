@@ -7,7 +7,7 @@ export interface Player {
 
 export async function saveScore(name: string, score: number) {
   try {
-    const response = await fetch('/api/leaderboard/save', {
+    const response = await fetch('/api/leaderboard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
