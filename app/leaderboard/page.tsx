@@ -5,6 +5,12 @@ import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import { getLeaderboard, Player } from '@/lib/sheets';
 
+const TEAM_MEMBERS = [
+  'LEIDY MARYURI RODRIGUEZ JIMÉNEZ',
+  'DAVID SANTIAGO VARGAS NOVA',
+  'RUBÉN DARÍO MONROY LEÓN',
+];
+
 export default function LeaderboardPage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +61,12 @@ export default function LeaderboardPage() {
             </p>
             <div className="glow-box p-4 rounded-lg bg-slate-900/60 border border-neon-blue/40 text-sm text-gray-300">
               <p className="font-semibold text-neon-blue">Equipo TransistorLab</p>
-              <p>Proyecto realizado por los tres desarrolladores del equipo.</p>
+              <p>Ingeniería de Sistemas - Universidad Incca de Colombia - 2026</p>
+              <div className="mt-3 space-y-1 text-gray-400">
+                {TEAM_MEMBERS.map((member) => (
+                  <p key={member}>• {member}</p>
+                ))}
+              </div>
             </div>
           </motion.div>
 
